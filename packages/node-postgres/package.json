@@ -1,0 +1,57 @@
+{
+  "name": "@nextera/nestjs-drizzle-pg",
+  "version": "0.0.4",
+  "license": "MIT",
+  "description": "A NestJS module for integrating Drizzle ORM with Node-Postgres driver",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Nextera Team",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "keywords": [
+    "drizzle",
+    "node-postgres",
+    "database",
+    "orm",
+    "nestjs",
+    "pg"
+  ],
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "drizzle-orm": "^0.44.6",
+    "pg": "^8.16.3",
+    "tslib": "^2.3.0"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/js:tsc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "dist/packages/node-postgres",
+          "tsConfig": "packages/node-postgres/tsconfig.lib.json",
+          "packageJson": "packages/node-postgres/package.json",
+          "main": "packages/node-postgres/src/index.ts",
+          "assets": [
+            "packages/node-postgres/*.md"
+          ]
+        }
+      }
+    }
+  }
+}
