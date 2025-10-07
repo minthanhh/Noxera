@@ -1,20 +1,20 @@
 {
   "name": "@nextera/nestjs-drizzle-pg",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "description": "A NestJS module for integrating Drizzle ORM with Node-Postgres driver",
   "publishConfig": {
     "access": "public"
   },
   "author": "Nextera Team",
-  "main": "./src/index.js",
-  "module": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./src/index.js",
-      "require": "./src/index.js",
-      "types": "./src/index.d.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "keywords": [
@@ -44,9 +44,9 @@
         ],
         "options": {
           "outputPath": "dist/packages/node-postgres",
+          "main": "packages/node-postgres/src/index.ts",
           "tsConfig": "packages/node-postgres/tsconfig.lib.json",
           "packageJson": "packages/node-postgres/package.json",
-          "main": "packages/node-postgres/src/index.ts",
           "assets": [
             "packages/node-postgres/*.md"
           ]
