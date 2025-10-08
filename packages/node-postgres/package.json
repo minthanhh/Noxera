@@ -1,16 +1,18 @@
 {
-  "name": "@nextera/nestjs-drizzle-pg",
-  "version": "0.1.0-0",
+  "name": "@noxera./nestjs-drizzle-pg",
+  "version": "0.0.2",
   "license": "MIT",
   "description": "A NestJS module for integrating Drizzle ORM with Node-Postgres driver",
   "publishConfig": {
     "access": "public"
   },
-  "author": "Nextera Team",
+  "author": "Ho Minh Thanh (mint03sanzz@gmail.com)",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "keywords": [
+    "@nestjs/drizzle-pg",
+    "@noxera./nestjs-drizzle-pg",
     "drizzle",
     "node-postgres",
     "database",
@@ -22,10 +24,17 @@
     "@nestjs/common": "^11.0.0",
     "drizzle-orm": "^0.44.6",
     "pg": "^8.16.3",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@nestjs/testing": "^11.0.0"
   },
   "nx": {
     "targets": {
+      "publish": {
+        "command": "node tools/scripts/publish.mjs @noxera./nestjs-drizzle-pg {args.ver} {args.tag}",
+        "dependsOn": [
+          "build"
+        ]
+      },
       "build": {
         "executor": "@nx/js:tsc",
         "outputs": [
