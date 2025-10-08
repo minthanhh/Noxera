@@ -35,6 +35,7 @@
     }
   },
   "release": {
+    "releaseTagPattern": "release/{version}",
     "projects": ["@noxera./nestjs-drizzle-pg"],
     "versionGenerator": "nx/release/semver",
     "changelog": {
@@ -43,7 +44,8 @@
     "git": {
       "commit": true,
       "tag": true,
-      "push": true
+      "push": true,
+      "commitMessage": "chore(release): {version}"
     },
     "version": {
       "preVersionCommand": "npx nx run-many -t build"

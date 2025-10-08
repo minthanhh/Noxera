@@ -1,6 +1,6 @@
 {
   "name": "@noxera./nestjs-drizzle-pg",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "license": "MIT",
   "description": "A NestJS module for integrating Drizzle ORM with Node-Postgres driver",
   "publishConfig": {
