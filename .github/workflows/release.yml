@@ -1,27 +1,24 @@
-name: Auto Version & Publish
+name: Publish Changed Packages
 
 on:
   push:
     branches:
-      - main  # chạy khi push lên main
+      - main
 
 jobs:
   publish:
-    name: Auto Version & Publish
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # cần quyền để push tag
+      contents: write
       id-token: write
-    timeout-minutes: 15
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          filter: tree:0
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -29,55 +26,19 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        shell: bash
 
-      - name: Configure Git user
+      - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-        shell: bash
 
-      # 🔍 Phân tích commit gần nhất để xác định loại version
-      - name: Determine version bump type
-        id: bump_type
-        run: |
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          echo "Last commit message: $COMMIT_MSG"
+      - name: Bump versions for changed packages
+        run: npx nx release version --yes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          if echo "$COMMIT_MSG" | grep -q "BREAKING CHANGE"; then
-            echo "bump=major" >> $GITHUB_OUTPUT
-          elif echo "$COMMIT_MSG" | grep -qE "^feat(\(.*\))?: "; then
-            echo "bump=minor" >> $GITHUB_OUTPUT
-          else
-            echo "bump=patch" >> $GITHUB_OUTPUT
-          fi
-
-      # 🧩 Tự động tăng version tương ứng
-      - name: Bump version
-        id: version_bump
-        run: |
-          BUMP_TYPE="${{ steps.bump_type.outputs.bump }}"
-          echo "Detected bump type: $BUMP_TYPE"
-          NEW_VERSION=$(npm version $BUMP_TYPE -m "chore(release): v%s [skip ci]")
-          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
-        shell: bash
-
-      - name: Push new version tag
-        run: |
-          git push origin HEAD:main --tags
-        shell: bash
-
-      - name: Print Environment Info
-        run: npx nx report
-        shell: bash
-
-      - name: Publish packages
-        run: npx nx release publish --no-cloud
-        shell: bash
+      - name: Publish changed packages
+        run: npx nx release publish --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
-
-      - name: Log published version
-        run: npm view @noxera./nestjs-drizzle-pg version
-        shell: bash
