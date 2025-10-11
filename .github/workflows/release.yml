@@ -1,53 +1,79 @@
-name: Automated NPM Release 🚀
+name: Auto Version & Publish
 
 on:
   push:
     branches:
-      - main # Kích hoạt khi merge vào main branch
+      - main  # chạy khi push lên main
 
 jobs:
-  release:
+  publish:
+    name: Auto Version & Publish
     runs-on: ubuntu-latest
-    
-    # Cài đặt quyền hạn cho GitHub Actions (quan trọng cho việc commit ngược lại)
     permissions:
-      contents: write # Cho phép Actions commit lại package.json và tạo tag
-      pull-requests: write 
-      
+      contents: write  # cần quyền để push tag
+      id-token: write
+    timeout-minutes: 15
+
     steps:
-      - name: ⬇️ Checkout Repo
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Cần fetch toàn bộ lịch sử để Nx tính toán version (Conventional Commits)
-          fetch-depth: 0 
-          # Sử dụng Token mặc định của GitHub Action (nên dùng)
-          token: ${{ secrets.GITHUB_TOKEN }} 
-          
-      - name: ⚙️ Setup Node.js
+          fetch-depth: 0
+          filter: tree:0
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          # Thiết lập registry và token cho NPM
-          registry-url: 'https://registry.npmjs.org'
-          
-      - name: 📦 Install Dependencies
-        run: npm ci 
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
 
-      # Biến môi trường chung để tắt Nx Cloud/Cache
-      - name: Set environment variables
-        run: echo "NX_SKIP_NX_CACHE=true" >> $GITHUB_ENV
-        
-      - name: 🧱 Build Affected Libraries
-        # THAY THẾ: Sử dụng NX_SKIP_NX_CACHE
-        run: npx nx affected:build --base=HEAD~1 --head=HEAD --parallel
+      - name: Install dependencies
+        run: npm ci
+        shell: bash
 
-      - name: 🚀 Run Nx Release & Publish
-        env:
-          # Truyền token NPM để npm publish hoạt động
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-          
+      - name: Configure Git user
         run: |
-          # Dùng tham số HEAD~1 (commit trước) làm BASE và HEAD (commit hiện tại) làm HEAD
-          # để Nx so sánh và xác định các commits mới kể từ lần release cuối.
-          # THAY THẾ: Sử dụng NX_SKIP_NX_CACHE
-          npx nx release --base=HEAD~1 --head=HEAD --verbose
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+        shell: bash
+
+      # 🔍 Phân tích commit gần nhất để xác định loại version
+      - name: Determine version bump type
+        id: bump_type
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "Last commit message: $COMMIT_MSG"
+
+          if echo "$COMMIT_MSG" | grep -q "BREAKING CHANGE"; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif echo "$COMMIT_MSG" | grep -qE "^feat(\(.*\))?: "; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
+      # 🧩 Tự động tăng version tương ứng
+      - name: Bump version
+        id: version_bump
+        run: |
+          BUMP_TYPE="${{ steps.bump_type.outputs.bump }}"
+          echo "Detected bump type: $BUMP_TYPE"
+          NEW_VERSION=$(npm version $BUMP_TYPE -m "chore(release): v%s [skip ci]")
+          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Push new version tag
+        run: |
+          git push origin HEAD:main --tags
+        shell: bash
+
+      - name: Print Environment Info
+        run: npx nx report
+        shell: bash
+
+      - name: Publish packages
+        run: npx nx release publish
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
