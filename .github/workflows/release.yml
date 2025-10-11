@@ -1,38 +1,46 @@
-name: Automated NPM Release
-
+name: Automated NPM Release 🚀
 on:
   push:
     branches:
-      - main
-
+      - main # Kích hoạt khi merge vào main branch
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write
+      contents: write # Cho phép Actions commit lại package.json và tạo tag
+      pull-requests: write # Tùy chọn, nếu bạn dùng PR
+      id-token: write # Tùy chọn, cho các nền tảng đám mây khác
+
     steps:
       - name: ⬇️ Checkout Repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          filter: tree:0
+          fetch-depth: 0 
+          token: ${{ secrets.GH_TOKEN }} # Dùng Secret nếu GitHub Token mặc định không đủ quyền
 
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-
       - name: 📦 Install Dependencies
-        run: npm install
-        shell: bash
+        run: npm ci 
 
       - name: 🧱 Build Affected Libraries
-        run: npx nx affected:build --base=origin/${{ github.ref_name }} --parallel
+        run: npx nx affected:build --base=HEAD~1 --head=HEAD --parallel
+
+      - name: ⚡ Restore Nx Cache (Nx Cloud)
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: ${{ runner.os }}-nx-cache-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nx-cache-
 
       - name: 🚀 Run Nx Release & Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
         run: |
-          npx nx release --base=origin/${{ github.ref_name }} --head=HEAD --verbose
+          # Dùng tham số HEAD~1 (commit trước) làm BASE và HEAD (commit hiện tại) làm HEAD
+          # để Nx so sánh và xác định các commits mới kể từ lần release cuối.
+          npx nx release --base=HEAD~1 --head=HEAD --verbose
