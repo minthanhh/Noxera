@@ -1,46 +1,53 @@
 name: Automated NPM Release 🚀
+
 on:
   push:
     branches:
       - main # Kích hoạt khi merge vào main branch
+
 jobs:
   release:
     runs-on: ubuntu-latest
+    
+    # Cài đặt quyền hạn cho GitHub Actions (quan trọng cho việc commit ngược lại)
     permissions:
       contents: write # Cho phép Actions commit lại package.json và tạo tag
-      pull-requests: write # Tùy chọn, nếu bạn dùng PR
-      id-token: write # Tùy chọn, cho các nền tảng đám mây khác
-
+      pull-requests: write 
+      
     steps:
       - name: ⬇️ Checkout Repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          filter: tree:0
-
+          # Cần fetch toàn bộ lịch sử để Nx tính toán version (Conventional Commits)
+          fetch-depth: 0 
+          # Sử dụng Token mặc định của GitHub Action (nên dùng)
+          token: ${{ secrets.GITHUB_TOKEN }} 
+          
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          # Thiết lập registry và token cho NPM
           registry-url: 'https://registry.npmjs.org'
+          
       - name: 📦 Install Dependencies
         run: npm ci 
 
+      # Biến môi trường chung để tắt Nx Cloud/Cache
+      - name: Set environment variables
+        run: echo "NX_SKIP_NX_CACHE=true" >> $GITHUB_ENV
+        
       - name: 🧱 Build Affected Libraries
+        # THAY THẾ: Sử dụng NX_SKIP_NX_CACHE
         run: npx nx affected:build --base=HEAD~1 --head=HEAD --parallel
-
-      - name: ⚡ Restore Nx Cache (Nx Cloud)
-        uses: actions/cache@v4
-        with:
-          path: .nx/cache
-          key: ${{ runner.os }}-nx-cache-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nx-cache-
 
       - name: 🚀 Run Nx Release & Publish
         env:
+          # Truyền token NPM để npm publish hoạt động
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+          
         run: |
           # Dùng tham số HEAD~1 (commit trước) làm BASE và HEAD (commit hiện tại) làm HEAD
           # để Nx so sánh và xác định các commits mới kể từ lần release cuối.
+          # THAY THẾ: Sử dụng NX_SKIP_NX_CACHE
           npx nx release --base=HEAD~1 --head=HEAD --verbose
