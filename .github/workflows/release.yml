@@ -15,8 +15,8 @@ jobs:
       - name: ⬇️ Checkout Repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
-          token: ${{ secrets.GH_TOKEN }} # Dùng Secret nếu GitHub Token mặc định không đủ quyền
+          fetch-depth: 0
+          filter: tree:0
 
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
