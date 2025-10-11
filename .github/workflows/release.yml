@@ -32,13 +32,28 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      # 🚀 Bump version cho các package thay đổi
       - name: Bump versions for changed packages
-        run: npx nx release version --yes
+        run: |
+          # Nếu chưa có tag nào, dùng --first-release để tránh lỗi
+          if git tag | grep -q "v"; then
+            echo "🔄 Existing tags found, running regular version bump..."
+            npx nx release version
+          else
+            echo "🆕 No tags found, running first release setup..."
+            npx nx release version --first-release
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # 🚀 Publish các package đã thay đổi
       - name: Publish changed packages
         run: npx nx release publish --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+      # 🏷️ Push tag và commit version mới trở lại main
+      - name: Push new tags
+        run: |
+          git push --follow-tags origin main
