@@ -35,20 +35,25 @@
     }
   },
   "release": {
-    "releaseTagPattern": "release/{version}",
+    "releaseTagPattern": "{projectName}@{version}",
     "projects": ["@noxera./nestjs-drizzle-pg"],
-    "versionGenerator": "nx/release/semver",
     "changelog": {
-      "createRelease": false
+      "createRelease": false,
+      "projectChangelogs": true,
+      "workspaceChangelog": false
     },
     "git": {
       "commit": true,
       "tag": true,
-      "push": true,
-      "commitMessage": "chore(release): {version}"
+      "push": true
     },
     "version": {
-      "preVersionCommand": "npx nx run-many -t build"
+      "preVersionCommand": "npx nx run-many -t build",
+      "conventionalCommits": true
     }
+  },
+  "tui": {
+    "enabled": true,
+    "autoExit": true
   }
 }

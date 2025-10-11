@@ -1,0 +1,38 @@
+name: Automated NPM Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: ⬇️ Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: tree:0
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: 📦 Install Dependencies
+        run: npm install
+        shell: bash
+
+      - name: 🧱 Build Affected Libraries
+        run: npx nx affected:build --base=origin/${{ github.ref_name }} --parallel
+
+      - name: 🚀 Run Nx Release & Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+        run: |
+          npx nx release --base=origin/${{ github.ref_name }} --head=HEAD --verbose
