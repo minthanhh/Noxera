@@ -41,7 +41,6 @@
     }
   },
   "release": {
-    "versionPlans": true,
     "projects": ["@noxera./nestjs-drizzle-pg", "@noxera./core"],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",
@@ -61,9 +60,6 @@
       "types": {
         "docs": {
           "semverBump": "none"
-        },
-        "chore": {
-          "changelog": false
         }
       }
     },
@@ -75,7 +71,7 @@
     "version": {
       "preVersionCommand": "npx nx run-many -t build",
       "conventionalCommits": true,
-      "manifestRootsToUpdate": ["{projectRoot}"],
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
       "fallbackCurrentVersionResolver": "disk"
     }
   },

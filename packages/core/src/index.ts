@@ -20,3 +20,13 @@ export function testFunction () {
   console.log('Hello World');
 
 }
+
+export function testFunction2 () {
+  console.log('Hello World');
+
+}
+
+export function testFunction3 () {
+  console.log('Hello World');
+
+}
