@@ -47,7 +47,7 @@
     "releaseTagPattern": "{projectName}@{version}",
     "changelog": {
       "createRelease": "github",
-      "workspaceChangelog": {
+      "projectChangelogs": {
         "renderOptions": {
           "authors": true,
           "applyUsernameToAuthors": true,
