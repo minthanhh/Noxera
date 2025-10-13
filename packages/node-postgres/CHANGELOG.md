@@ -1,3 +1,13 @@
+## 0.1.4 (2025-10-13)
+
+### 🩹 Fixes
+
+- hello word function -3 ([d168e08](https://github.com/minthanhh/Noxera/commit/d168e08))
+
+### ❤️ Thank You
+
+- thanh.ho
+
 ## 0.1.3 (2025-10-13)
 
 ### 🩹 Fixes
