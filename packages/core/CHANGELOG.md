@@ -1,3 +1,19 @@
+## 0.2.0 (2025-10-13)
+
+### 🚀 Features
+
+- **core:** updated core module ([7e1c313](https://github.com/minthanhh/Noxera/commit/7e1c313))
+- updated ([502697e](https://github.com/minthanhh/Noxera/commit/502697e))
+
+### 🩹 Fixes
+
+- hello word function 5 ([5be3b21](https://github.com/minthanhh/Noxera/commit/5be3b21))
+- hello word function -3 ([95e96ee](https://github.com/minthanhh/Noxera/commit/95e96ee))
+
+### ❤️ Thank You
+
+- thanh.ho
+
 ## 0.1.4 (2025-10-13)
 
 ### 🩹 Fixes

@@ -1,3 +1,13 @@
+## 0.1.6 (2025-10-13)
+
+### 🩹 Fixes
+
+- hello word function -5 ([2cb9115](https://github.com/minthanhh/Noxera/commit/2cb9115))
+
+### ❤️ Thank You
+
+- thanh.ho
+
 ## 0.1.5 (2025-10-13)
 
 ### 🩹 Fixes
