@@ -35,7 +35,7 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "dist/packages/{projectName}"
+        "packageRoot": "dist/packages/*"
       },
       "dependsOn": ["^build"]
     }
@@ -67,7 +67,7 @@
     "version": {
       "preVersionCommand": "npx nx run-many -t build",
       "conventionalCommits": true,
-      "manifestRootsToUpdate": ["packages/node-postgres"]
+      "manifestRootsToUpdate": ["{projectRoot}"]
     }
   },
   "tui": {
