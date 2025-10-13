@@ -47,16 +47,15 @@
     "releaseTagPattern": "{projectName}@{version}",
     "changelog": {
       "createRelease": "github",
-      "workspaceChangelog": true,
-      "automaticFromRef": true,
-      "projectChangelogs": {
+      "workspaceChangelog": {
         "renderOptions": {
           "authors": true,
           "applyUsernameToAuthors": true,
           "commitReferences": true,
           "versionTitleDate": true
         }
-      }
+      },
+      "automaticFromRef": true
     },
     "conventionalCommits": {
       "types": {
