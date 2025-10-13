@@ -29,12 +29,6 @@
   },
   "nx": {
     "targets": {
-      "publish": {
-        "command": "node tools/scripts/publish.mjs @noxera./nestjs-drizzle-pg {args.ver} {args.tag}",
-        "dependsOn": [
-          "build"
-        ]
-      },
       "build": {
         "executor": "@nx/js:tsc",
         "outputs": [
@@ -53,3 +47,4 @@
     }
   }
 }
+

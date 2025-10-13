@@ -41,9 +41,6 @@
     }
   },
   "release": {
-    "publish": {
-      "packageRoot": "dist/{projectRoot}"
-    },
     "projects": ["@noxera./nestjs-drizzle-pg", "@noxera./core"],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",

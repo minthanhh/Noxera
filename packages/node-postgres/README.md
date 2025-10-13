@@ -209,3 +209,13 @@ Cấu hình module một cách bất đồng bộ.
 ---
 
 Chúc bạn mã hóa vui vẻ!
+
+
+
+
+// "publish": {
+//         "command": "node tools/scripts/publish.mjs @noxera./nestjs-drizzle-pg {args.ver} {args.tag}",
+//         "dependsOn": [
+//           "build"
+//         ]
+//       },
