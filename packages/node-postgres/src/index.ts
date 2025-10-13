@@ -6,7 +6,4 @@ export * from './lib/node-postgres.types';
 
 export function helloWorld() {
   console.log('Hello World!');
-  console.log('awesome')
-  console.log('awesome')
-  console.log('awesome')
 }
