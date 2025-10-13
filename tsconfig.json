@@ -5,6 +5,12 @@
   "references": [
     {
       "path": "./packages/node-postgres"
+    },
+    {
+      "path": "./packages"
+    },
+    {
+      "path": "./packages/core"
     }
   ]
 }

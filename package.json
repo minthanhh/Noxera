@@ -37,7 +37,8 @@
     "verdaccio": "^6.0.5"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages"
   ],
   "dependencies": {
     "@nestjs/common": "^11.0.0",

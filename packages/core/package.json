@@ -1,0 +1,39 @@
+{
+  "name": "@noxera./core",
+  "version": "0.0.1",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Ho Minh Thanh (mint03sanzz@gmail.com)",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/js:tsc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "dist/packages/core",
+          "tsConfig": "packages/core/tsconfig.lib.json",
+          "packageJson": "packages/core/package.json",
+          "main": "packages/core/src/index.ts",
+          "assets": [
+            "packages/core/*.md"
+          ]
+        }
+      }
+    }
+  }
+}

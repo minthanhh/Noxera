@@ -32,15 +32,32 @@
   "targetDefaults": {
     "test": {
       "dependsOn": ["^build"]
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/packages/{projectName}"
+      },
+      "dependsOn": ["^build"]
     }
   },
   "release": {
+    "projects": ["@noxera./nestjs-drizzle-pg", "@noxera./core"],
+    "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",
-    "projects": ["@noxera./nestjs-drizzle-pg"],
     "changelog": {
-      "createRelease": false,
+      "createRelease": "github",
       "projectChangelogs": true,
-      "workspaceChangelog": false
+      "workspaceChangelog": true
+    },
+    "conventionalCommits": {
+      "types": {
+        "docs": {
+          "semverBump": "none"
+        },
+        "chore": {
+          "changelog": false
+        }
+      }
     },
     "git": {
       "commit": true,
@@ -49,7 +66,8 @@
     },
     "version": {
       "preVersionCommand": "npx nx run-many -t build",
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "manifestRootsToUpdate": ["packages/node-postgres"]
     }
   },
   "tui": {

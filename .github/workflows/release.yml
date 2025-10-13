@@ -1,59 +1,59 @@
-name: Publish Changed Packages
+# name: Publish Changed Packages
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
+# jobs:
+#   publish:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
+#       id-token: write
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#           registry-url: https://registry.npmjs.org/
 
-      - name: Install dependencies
-        run: npm ci
+#       - name: Install dependencies
+#         run: npm ci
 
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+#       - name: Configure git
+#         run: |
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 🚀 Bump version cho các package thay đổi
-      - name: Bump versions for changed packages
-        run: |
-          # Nếu chưa có tag nào, dùng --first-release để tránh lỗi
-          if git tag | grep -q "v"; then
-            echo "🔄 Existing tags found, running regular version bump..."
-            npx nx release version
-          else
-            echo "🆕 No tags found, running first release setup..."
-            npx nx release version --first-release
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       # 🚀 Bump version cho các package thay đổi
+#       - name: Bump versions for changed packages
+#         run: |
+#           # Nếu chưa có tag nào, dùng --first-release để tránh lỗi
+#           if git tag | grep -q "v"; then
+#             echo "🔄 Existing tags found, running regular version bump..."
+#             npx nx release version
+#           else
+#             echo "🆕 No tags found, running first release setup..."
+#             npx nx release version --first-release
+#           fi
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 🚀 Publish các package đã thay đổi
-      - name: Publish changed packages
-        run: npx nx release publish --yes
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+#       # 🚀 Publish các package đã thay đổi
+#       - name: Publish changed packages
+#         run: npx nx release publish --yes
+#         env:
+#           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+#           NPM_CONFIG_PROVENANCE: true
 
-      # 🏷️ Push tag và commit version mới trở lại main
-      - name: Push new tags
-        run: |
-          git push --follow-tags origin main
+#       # 🏷️ Push tag và commit version mới trở lại main
+#       - name: Push new tags
+#         run: |
+#           git push --follow-tags origin main
