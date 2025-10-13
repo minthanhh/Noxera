@@ -12,3 +12,11 @@ export function helloWorld() {
   console.log('Hello World!');
   console.log('Hello World!');
 }
+
+export function testFunction() {
+  console.log('Hello World!');
+}
+
+export function testFunction2() {
+  console.log('Hello World!');
+}
