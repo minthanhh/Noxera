@@ -1,8 +1,6 @@
 {
   "name": "@noxera./core",
   "version": "0.1.1",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -10,10 +8,6 @@
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
-  "files": [
-    "dist",
-    "!**/*.tsbuildinfo"
-  ],
   "dependencies": {
     "tslib": "^2.3.0"
   },
