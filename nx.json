@@ -35,7 +35,7 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "dist/packages/*"
+        "packageRoot": "{projectRoot}"
       },
       "dependsOn": ["^build"]
     }
@@ -47,7 +47,8 @@
     "changelog": {
       "createRelease": "github",
       "projectChangelogs": true,
-      "workspaceChangelog": true
+      "workspaceChangelog": true,
+      "automaticFromRef": true
     },
     "conventionalCommits": {
       "types": {
@@ -67,7 +68,8 @@
     "version": {
       "preVersionCommand": "npx nx run-many -t build",
       "conventionalCommits": true,
-      "manifestRootsToUpdate": ["{projectRoot}"]
+      "manifestRootsToUpdate": ["{projectRoot}"],
+      "fallbackCurrentVersionResolver": "disk"
     }
   },
   "tui": {
