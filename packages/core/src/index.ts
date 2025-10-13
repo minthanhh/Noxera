@@ -30,3 +30,13 @@ export function testFunction3 () {
   console.log('Hello World');
 
 }
+
+export function testFunction4 () {
+  console.log('Hello World');
+
+}
+
+export function testFunction5 () {
+  console.log('Hello World');
+
+}

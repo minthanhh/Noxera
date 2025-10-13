@@ -45,14 +45,17 @@
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",
     "changelog": {
+      "workspaceChangelog": false,
       "createRelease": "github",
       "projectChangelogs": {
+        "file": false,
         "renderOptions": {
           "authors": true,
           "applyUsernameToAuthors": true,
           "commitReferences": true,
           "versionTitleDate": true
-        }
+        },
+        "entryWhenNoChanges": "No changes detected for this release."
       },
       "automaticFromRef": true
     },
