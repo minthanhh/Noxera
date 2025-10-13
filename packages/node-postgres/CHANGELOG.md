@@ -1,3 +1,13 @@
+## 0.1.3 (2025-10-13)
+
+### 🩹 Fixes
+
+- hello word function -3 ([e34fca6](https://github.com/minthanhh/Noxera/commit/e34fca6))
+
+### ❤️ Thank You
+
+- thanh.ho
+
 ## 0.1.2 (2025-10-13)
 
 ### 🩹 Fixes
