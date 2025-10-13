@@ -1,3 +1,13 @@
+## 0.1.1 (2025-10-13)
+
+### 🩹 Fixes
+
+- helloWord function ([dae65e0](https://github.com/minthanhh/Noxera/commit/dae65e0))
+
+### ❤️ Thank You
+
+- thanh.ho
+
 ## 0.1.0 (2025-10-13)
 
 ### 🚀 Features
