@@ -35,12 +35,15 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "{projectRoot}"
+        "packageRoot": "dist/{projectRoot}"
       },
       "dependsOn": ["^build"]
     }
   },
   "release": {
+    "publish": {
+      "packageRoot": "dist/{projectRoot}"
+    },
     "projects": ["@noxera./nestjs-drizzle-pg", "@noxera./core"],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",
