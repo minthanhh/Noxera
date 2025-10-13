@@ -55,7 +55,7 @@
           "commitReferences": true,
           "versionTitleDate": true
         },
-        "entryWhenNoChanges": "No changes detected for this release."
+        "entryWhenNoChanges": false
       },
       "automaticFromRef": true
     },
@@ -74,7 +74,7 @@
     "version": {
       "preVersionCommand": "npx nx run-many -t build",
       "conventionalCommits": true,
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "manifestRootsToUpdate": ["{projectRoot}", "dist/{projectRoot}"],
       "fallbackCurrentVersionResolver": "disk"
     }
   },

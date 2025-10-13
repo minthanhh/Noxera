@@ -38,5 +38,12 @@ export function testFunction4 () {
 
 export function testFunction5 () {
   console.log('Hello World');
+}
 
+export function testFunction6 () {
+  console.log('Hello World');
+}
+
+export function testFunction7 () {
+  console.log('Hello World');
 }
