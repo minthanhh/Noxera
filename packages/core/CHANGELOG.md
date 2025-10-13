@@ -1,3 +1,13 @@
+## 0.2.1 (2025-10-13)
+
+### 🩹 Fixes
+
+- abc 12 ([7260847](https://github.com/minthanhh/Noxera/commit/7260847))
+
+### ❤️ Thank You
+
+- thanh.ho
+
 ## 0.2.0 (2025-10-13)
 
 ### 🚀 Features
